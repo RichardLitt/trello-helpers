@@ -1,8 +1,7 @@
 var Trello = require('node-trello')
 var t = new Trello('81aff9b457de638bc94d7bb2a6d99816', '32cf5bb650eda2702c6d87a797799428ba77e0d9962fe795552ee698124a2a9e')
 var moment = require('moment')
-
-if (process.argv[2] === 'today') module.exports.today()
+var _ = require('lodash')
 
 // t.get('/1/members/me', function (err, data) {
 //   if (err) throw err
@@ -24,8 +23,9 @@ if (process.argv[2] === 'today') module.exports.today()
 //   // console.log(data)
 // })
 
-var dailyProcessesId = '5530c897180c432f729fbf85'
 var lifeAsSheIsPlayedId = '533c26d99c90c43936a3c499'
+
+var dailyProcessesId = '5530c897180c432f729fbf85'
 var todayId = '549ccb04f68aa6f4657b5d04'
 
 // function unique (array) {
@@ -39,7 +39,7 @@ var todayId = '549ccb04f68aa6f4657b5d04'
 // }
 
 // Create a new list for today's date
-module.exports.today = function () {
+var today = function () {
   t.post('/1/lists', {
     name: moment().format('MMMM Do, YYYY'),
     idBoard: lifeAsSheIsPlayedId,
@@ -58,25 +58,37 @@ module.exports.today = function () {
 }
 
 // Delete duplicates
-module.exports.duplicates = function duplicates (listId) {
+var duplicates = function (listId, dailyOnly) {
   listId = listId || todayId
+  dailyOnly = dailyOnly || true
+  // Get the list of items due Today
   t.get('/1/lists/' + listId, {cards: 'open'}, function (err, data) {
-    if (err) {
-      throw err
-    }
+    if (err) throw err
 
-    var cards = data.cards.sort(function (a, b) {
-      return a.name.localeCompare(b.name)
+    // Find duplicate cards
+    var dupes = _.difference(data.cards, _.uniq(data.cards, 'name'))
+
+    _.each(dupes, function (card) {
+      // Only delete daily cards, unless there are other dupes
+      if (dailyOnly && _.includes(card.idLabels, '55800cca791f5e61d1e67bd5')) {
+        // Delete duplicate cards
+        t.del('/1/cards/' + card.id, function (err, res) {
+          if (err) throw err
+
+          console.log('Deleted card: ' + card.name + ' (' + card.id + ')')
+        })
+      }
     })
-
-    var cardNames = cards.map(function (card) {
-      return card.name
-      // if (card.closed === false) {
-      //   console.log(card.name, card.id)
-      // }
-    })
-
-    // console.log(cardNames)
 
   })
 }
+
+if (process.argv[2] === 'today') today()
+if (process.argv[2] === 't') today()
+if (process.argv[2] === 'duplicates') duplicates()
+if (process.argv[2] === 'd') duplicates()
+if (process.argv[2] === 'dupes') duplicates()
+if (process.argv[2] === 'dedupe') duplicates()
+
+// module.exports.today = today()
+// module.exports.duplicates = duplicates()

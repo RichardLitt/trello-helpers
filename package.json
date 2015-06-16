@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/RichardLitt/trello-helpers",
   "dependencies": {
+    "lodash": "^3.9.3",
     "moment": "^2.10.3",
     "node-trello": "^1.1.2"
   }
