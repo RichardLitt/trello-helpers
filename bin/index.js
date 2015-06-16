@@ -1,7 +1,11 @@
-var Trello = require('node-trello')
-var t = new Trello(process.env.TRELLO_KEY, process.env.TRELLO_TOKEN)
+#!/usr/bin/env node
+'use strict'
+
 var moment = require('moment')
 var _ = require('lodash')
+
+var Trello = require('node-trello')
+var t = new Trello(process.env.TRELLO_KEY, process.env.TRELLO_TOKEN)
 
 var boardId, targetList, sourceList
 
