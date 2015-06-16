@@ -14,7 +14,7 @@ This will copy all of the cards from a list (mine is called 'Daily Processes') t
 
 #### duplicates
 
-`# trello-helpers duplicates`
+`$ trello-helpers duplicates`
 
 Aliases: `duplicates`, `dupes`, `dedupe`, `d`
 
