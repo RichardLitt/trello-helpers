@@ -1,3 +1,6 @@
+#!/usr/bin/env node
+'use strict'
+
 var Trello = require('node-trello')
 var Promise = require('bluebird')
 var t = Promise.promisifyAll(new Trello(process.env.TRELLO_KEY, process.env.TRELLO_TOKEN))
@@ -126,10 +129,10 @@ function removeDuplicates (listId, dailyOnly) {
 // Also buggy in that `node bin/index.js t d` will call both immediately.
 if (_.intersection(['today', 't'], argv._).length !== 0) {
   createToday()
-}
-
-if (_.intersection(['duplicates', 'd', 'dupes', 'dedupe'], argv._).length !== 0) {
+} else if (_.intersection(['duplicates', 'd', 'dupes', 'dedupe'], argv._).length !== 0) {
   removeDuplicates()
+} else {
+  console.log('No argument supplied.')
 }
 
 module.exports.createToday = createToday
