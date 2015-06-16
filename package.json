@@ -1,0 +1,26 @@
+{
+  "name": "trello-helpers",
+  "version": "1.0.0",
+  "description": "Just some functions I need to use",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:RichardLitt/trello-helpers.git"
+  },
+  "keywords": [
+    "trello"
+  ],
+  "author": "Richard Littauer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RichardLitt/trello-helpers/issues"
+  },
+  "homepage": "https://github.com/RichardLitt/trello-helpers",
+  "dependencies": {
+    "moment": "^2.10.3",
+    "node-trello": "^1.1.2"
+  }
+}
