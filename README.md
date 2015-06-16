@@ -2,6 +2,11 @@
 
 This integrates with your Trello account using the API to do some more complicated repetitive operations.
 
+## Installation
+
+Global:
+`npm i -g trello-helpers`
+
 ## Methods
 
 #### today
