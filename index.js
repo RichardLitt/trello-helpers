@@ -1,5 +1,5 @@
 var Trello = require('node-trello')
-var t = new Trello('81aff9b457de638bc94d7bb2a6d99816', '32cf5bb650eda2702c6d87a797799428ba77e0d9962fe795552ee698124a2a9e')
+var t = new Trello(process.env.TRELLO_KEY, process.env.TRELLO_TOKEN)
 var moment = require('moment')
 var _ = require('lodash')
 
@@ -24,7 +24,6 @@ var _ = require('lodash')
 // })
 
 var lifeAsSheIsPlayedId = '533c26d99c90c43936a3c499'
-
 var dailyProcessesId = '5530c897180c432f729fbf85'
 var todayId = '549ccb04f68aa6f4657b5d04'
 
