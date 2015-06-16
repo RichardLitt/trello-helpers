@@ -1,98 +1,136 @@
-#!/usr/bin/env node
-'use strict'
-
+var Trello = require('node-trello')
+var Promise = require('bluebird')
+var t = Promise.promisifyAll(new Trello(process.env.TRELLO_KEY, process.env.TRELLO_TOKEN))
 var moment = require('moment')
 var _ = require('lodash')
+var argv = require('minimist')(process.argv.slice(2))
 
-var Trello = require('node-trello')
-var t = new Trello(process.env.TRELLO_KEY, process.env.TRELLO_TOKEN)
+function findBoard (boardName) {
+  return Promise.try(function () {
+    return t.getAsync('/1/members/me')
+  }).then(function (data) {
+    return data.idBoards
+  }).map(function (boardId) {
+    return t.getAsync('/1/boards/' + boardId, {lists: 'all'})
+  }).filter(function (board) {
+    return board.name === boardName
+  }).then(function (boards) {
+    if (boardName === undefined) {
+      throw new Error('boardName not set in ENV')
+    } else if (boards.length === 0) {
+      throw new Error('No results found.')
+    } else {
+      return boards[0]
+    }
+  })
+}
 
-var boardId, targetList, sourceList
+function getOrCreateList (board, listName) {
+  return Promise.filter(board.lists, function (list) {
+    return list.name === listName
+  }).then(function (lists) {
+    if (lists.length > 0) {
+      return lists[0]
+    } else {
+      return createList({
+        name: listName,
+        board: board,
+        position: 'top'
+      })
+    }
+  })
+}
 
-var init = function (cb) {
-  var resolve = false
-  t.get('/1/members/me', function (err, data) {
-    if (err) throw err
-    data.idBoards.map(function (idBoard) {
-      t.get('/1/boards/' + idBoard, {lists: 'all'}, function (err, data) {
-        if (err) throw err
-        if (data.name === 'Life As She Is Played') {
-          boardId = data.id
-          data.lists.map(function (list) {
-            if (list.name === 'Today') {
-              targetList = list.id
-            }
-            if (list.name === 'Daily Processes') {
-              sourceList = list.id
-            }
-          })
-          if (targetList && sourceList && !resolve) {
-            resolve = true
-            cb(boardId, targetList, sourceList)
-          }
-        }
+function createList (opts) {
+  return Promise.try(function () {
+    return t.postAsync('/1/lists', {
+      name: opts.name,
+      idBoard: opts.board,
+      idListSource: opts.sourceList,
+      position: opts.position
+    })
+  })
+}
+
+function init (boardName) {
+  return Promise.try(function () {
+    return findBoard(boardName)
+  }).then(function (board) {
+    return Promise.all([
+      getOrCreateList(board, 'Today'),
+      getOrCreateList(board, 'Daily Processes')
+    ]).spread(function (targetList, sourceList) {
+      return {
+        boardId: board.id,
+        sourceList: sourceList.id,
+        targetList: targetList.id
+      }
+    })
+  })
+}
+
+var dailyLabel = process.env.TRELLO_LABEL
+
+function createToday () {
+  return Promise.try(function () {
+    return init(process.env.TRELLO_BOARD)
+  }).then(function (result) {
+    console.log(result)
+    Promise.try(function () {
+      return createList({
+        name: moment().format('MMMM Do, YYYY'),
+        board: result.boardId,
+        sourceList: result.sourceList,
+        position: '3'
+      })
+    }).then(function (list) {
+      return t.postAsync('/1/lists/' + list.id + '/moveAllCards', {
+        idBoard: result.boardId,
+        idList: result.targetList
+      })
+    }).then(function () {
+      console.log('Done')
+    })
+  })
+}
+
+function removeDuplicates (listId, dailyOnly) {
+  return Promise.try(function () {
+    return init(process.env.TRELLO_BOARD)
+  }).then(function (result) {
+    if (listId == null) {
+      listId = result.targetList
+    }
+
+    if (dailyOnly == null) {
+      dailyOnly = true
+    }
+
+    return Promise.try(function () {
+      return t.getAsync('/1/lists/' + listId, {cards: 'open'})
+    }).then(function (result) {
+      return _.difference(result.cards, _.uniq(result.cards, 'name'))
+    }).filter(function (card) {
+      return (dailyOnly && _.includes(card.idLabels, dailyLabel))
+    }).map(function (card) {
+      return Promise.try(function () {
+        return t.delAsync('/1/cards/' + card.id)
+      }).then(function () {
+        console.log('Deleted card: ' + card.name + ' (' + card.id + ')')
       })
     })
   })
 }
 
-// Just some ids that are easier to put here directly
-var dailyLabel = '55800cca791f5e61d1e67bd5'
-
-// Create a new list for today's date
-var today = function () {
-  init(function (boardId, targetList, sourceList) {
-    t.post('/1/lists', {
-      name: moment().format('MMMM Do, YYYY'),
-      idBoard: boardId,
-      idListSource: sourceList,
-      position: '3'
-    }, function (err, data) {
-      if (err) { throw err }
-
-      // Copy all cards to 'Today'
-      t.post('/1/lists/' + data.id + '/moveAllCards', {idBoard: boardId, idList: targetList}, function (err, res) {
-        if (err) { throw err }
-
-        console.log('Done')
-      })
-    })
-  })
+// This is most likely broken - even when imported as a module, this will still run, and be able to access process.argv...
+// Also buggy in that `node bin/index.js t d` will call both immediately.
+if (_.intersection(['today', 't'], argv._).length !== 0) {
+  createToday()
 }
 
-// Delete duplicates
-var duplicates = function (listId, dailyOnly) {
-  init(function (boardId, targetList, sourceList) {
-    listId = listId || targetList
-    dailyOnly = dailyOnly || true
-    // Get the list of items due Today
-    t.get('/1/lists/' + listId, {cards: 'open'}, function (err, data) {
-      if (err) throw err
-
-      // Find duplicate cards
-      var dupes = _.difference(data.cards, _.uniq(data.cards, 'name'))
-
-      _.each(dupes, function (card) {
-        // Only delete daily cards, unless there are other dupes
-        if (dailyOnly && _.includes(card.idLabels, dailyLabel)) {
-          // Delete duplicate cards
-          t.del('/1/cards/' + card.id, function (err, res) {
-            if (err) throw err
-
-            console.log('Deleted card: ' + card.name + ' (' + card.id + ')')
-          })
-        }
-      })
-    })
-  })
+if (_.intersection(['duplicates', 'd', 'dupes', 'dedupe'], argv._).length !== 0) {
+  removeDuplicates()
 }
 
-if (process.argv[2] === 'today') today()
-if (process.argv[2] === 't') today()
-if (process.argv[2] === 'duplicates') duplicates()
-if (process.argv[2] === 'd') duplicates()
-if (process.argv[2] === 'dupes') duplicates()
-if (process.argv[2] === 'dedupe') duplicates()
-
-module.exports.today = today
-module.exports.duplicates = duplicates
+module.exports.createToday = createToday
+module.exports.removeDuplicates = removeDuplicates

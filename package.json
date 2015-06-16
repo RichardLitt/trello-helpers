@@ -20,7 +20,9 @@
   },
   "homepage": "https://github.com/RichardLitt/trello-helpers",
   "dependencies": {
+    "bluebird": "^2.9.30",
     "lodash": "^3.9.3",
+    "minimist": "^1.1.1",
     "moment": "^2.10.3",
     "node-trello": "^1.1.2"
   }
