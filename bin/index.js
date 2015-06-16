@@ -78,7 +78,6 @@ function createToday () {
   return Promise.try(function () {
     return init(process.env.TRELLO_BOARD)
   }).then(function (result) {
-    console.log(result)
     Promise.try(function () {
       return createList({
         name: moment().format('MMMM Do, YYYY'),
