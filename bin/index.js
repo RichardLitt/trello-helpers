@@ -4,7 +4,7 @@
 var argv = require('minimist')(process.argv.slice(2))
 var _ = require('lodash')
 
-var trelloHelperLib = require("../lib")({
+var trelloHelperLib = require('../lib')({
   trelloKey: process.env.TRELLO_KEY,
   trelloToken: process.env.TRELLO_TOKEN,
   trelloBoard: process.env.TRELLO_BOARD,
@@ -17,5 +17,5 @@ if (_.intersection(['today', 't'], argv._).length !== 0) {
   trelloHelperLib.removeDuplicates()
 } else {
   console.log('No argument supplied.')
-  process.exit(1);
+  process.exit(1)
 }
