@@ -7,6 +7,19 @@ This integrates with your Trello account using the API to do some more complicat
 Global:
 `npm i -g trello-helpers`
 
+Environmental Variables:
+
+```js
+{
+  trelloKey: process.env.TRELLO_KEY,
+  trelloToken: process.env.TRELLO_TOKEN,
+  trelloBoard: process.env.TRELLO_BOARD,
+  trelloLabel: process.env.TRELLO_LABEL
+}
+```
+
+Your key and token can be gotten from the Trello API. Your board should be in the URL of the board you want. The label is used for daily lists, and needs to be gotten programmatically.
+
 ## Methods
 
 #### today
