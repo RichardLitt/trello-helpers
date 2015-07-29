@@ -2,6 +2,8 @@
 
 This integrates with your Trello account using the API to do some more complicated repetitive operations.
 
+<a href="https://nodei.co/npm/trello-helpers/"><img src="https://nodei.co/npm/trello-helpers.png?downloads=true&downloadRank=true&stars=true"></a>
+
 ## Installation
 
 Global:
