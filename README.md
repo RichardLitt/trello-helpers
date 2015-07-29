@@ -37,3 +37,11 @@ This will copy all of the cards from a list (mine is called 'Daily Processes') t
 Aliases: `duplicates`, `dupes`, `dedupe`, `d`
 
 This will delete duplicate cards in a given list. It will also selectively delete only cards which have a certain label (mine is `daily`). 
+
+#### create
+
+`$ trello-helpers --create 'This is a new card'`
+
+Aliases: `c`
+
+This will create a new card at the top of your target list as specified in your env, with the name of the argument.
