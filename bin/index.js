@@ -15,6 +15,8 @@ if (_.intersection(['today', 't'], argv._).length !== 0) {
   trelloHelperLib.createToday()
 } else if (_.intersection(['duplicates', 'd', 'dupes', 'dedupe'], argv._).length !== 0) {
   trelloHelperLib.removeDuplicates()
+} else if (argv['create'] || argv['c']) {
+  trelloHelperLib.createCard(argv['create'] || argv['c'])
 } else {
   console.log('No argument supplied.')
   process.exit(1)
