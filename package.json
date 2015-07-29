@@ -1,6 +1,6 @@
 {
   "name": "trello-helpers",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Just some functions I need to use",
   "main": "bin/index.js",
   "bin": "bin/index.js",
