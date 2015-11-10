@@ -24,22 +24,6 @@ Your key and token can be gotten from the Trello API. Your board should be in th
 
 ## Methods
 
-#### today
-
-`$ trello-helpers today`
-
-Aliases: `today`, `t`
-
-This will copy all of the cards from a list (mine is called 'Daily Processes') to another list with the format `June 16th, 2015`. It then copies all of those cards from that list to a list called `Today`, the goal being that daily processes are added to your to do list for that day, and you have a fresh card to start putting daily accomplishments on. 
-
-#### duplicates
-
-`$ trello-helpers duplicates`
-
-Aliases: `duplicates`, `dupes`, `dedupe`, `d`
-
-This will delete duplicate cards in a given list. It will also selectively delete only cards which have a certain label (mine is `daily`). 
-
 #### create
 
 `$ trello-helpers --create 'This is a new card'`
@@ -47,3 +31,33 @@ This will delete duplicate cards in a given list. It will also selectively delet
 Aliases: `c`
 
 This will create a new card at the top of your target list as specified in your env, with the name of the argument.
+
+#### duplicates
+
+`$ trello-helpers duplicates`
+
+Aliases: `d`
+
+This will delete duplicate cards in a given list. It will also selectively delete only cards which have a certain label (mine is `daily`).
+
+#### lists
+
+`$ trello-helpers lists`
+
+This will console log the names of all lists for the given board.
+
+#### list <list_name>
+
+`$ trello-helpers --list 'To Do'`
+
+Aliases: `l`
+
+This will print the names of all cards for a given list.
+
+#### today
+
+`$ trello-helpers today`
+
+Aliases: `t`
+
+This will copy all of the cards from a list (mine is called 'Daily Processes') to another list with the format `June 16th, 2015`. It then copies all of those cards from that list to a list called `Today`, the goal being that daily processes are added to your to do list for that day, and you have a fresh card to start putting daily accomplishments on.
