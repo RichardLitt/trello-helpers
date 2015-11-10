@@ -1,8 +1,14 @@
 #!/usr/bin/env node
 'use strict'
 
-var argv = require('minimist')(process.argv.slice(2))
-var _ = require('lodash')
+var argv = require('minimist')(process.argv.slice(2), {
+  alias: {
+    c: 'create',
+    d: 'duplicates',
+    l: 'list',
+    t: 'today'
+  }
+})
 
 var trelloHelperLib = require('../lib')({
   trelloKey: process.env.TRELLO_KEY,
@@ -11,12 +17,16 @@ var trelloHelperLib = require('../lib')({
   trelloLabel: process.env.TRELLO_LABEL
 })
 
-if (_.intersection(['today', 't'], argv._).length !== 0) {
+if (argv._.indexOf('today') !== -1) {
   trelloHelperLib.createToday()
-} else if (_.intersection(['duplicates', 'd', 'dupes', 'dedupe'], argv._).length !== 0) {
+} else if (argv._.indexOf('duplicates') !== -1) {
   trelloHelperLib.removeDuplicates()
-} else if (argv['create'] || argv['c']) {
-  trelloHelperLib.createCard(argv['create'] || argv['c'])
+} else if (argv._.indexOf('create') !== -1) {
+  trelloHelperLib.createCard(argv['create'])
+} else if (argv._.indexOf('lists') !== -1) {
+  trelloHelperLib.getLists()
+} else if (argv['list']) {
+  trelloHelperLib.listCards(argv['list'])
 } else {
   console.log('No argument supplied.')
   process.exit(1)
