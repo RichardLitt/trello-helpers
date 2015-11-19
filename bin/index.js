@@ -25,6 +25,8 @@ if (argv._.indexOf('today') !== -1) {
   trelloHelperLib.createCard(argv['create'], argv['list'] || undefined)
 } else if (argv._.indexOf('lists') !== -1) {
   trelloHelperLib.getLists()
+} else if (!argv['create'] && argv['list'] && argv['label']) {
+  trelloHelperLib.labelCards(argv['list'], argv['label'])
 } else if (!argv['create'] && argv['list']) {
   trelloHelperLib.listCards(argv['list'])
 } else {
