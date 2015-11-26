@@ -21,11 +21,11 @@ if (argv._.indexOf('today') !== -1) {
   trelloHelperLib.createToday()
 } else if (argv._.indexOf('duplicates') !== -1) {
   trelloHelperLib.removeDuplicates()
-} else if (argv._.indexOf('create') !== -1) {
-  trelloHelperLib.createCard(argv['create'])
+} else if (argv['create']) {
+  trelloHelperLib.createCard(argv['create'], argv['list'] || undefined)
 } else if (argv._.indexOf('lists') !== -1) {
   trelloHelperLib.getLists()
-} else if (argv['list']) {
+} else if (!argv['create'] && argv['list']) {
   trelloHelperLib.listCards(argv['list'])
 } else {
   console.log('No argument supplied.')
