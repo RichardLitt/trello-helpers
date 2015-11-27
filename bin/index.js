@@ -26,7 +26,7 @@ if (argv._.indexOf('today') !== -1) {
   trelloHelperLib.createCard(argv['create'], argv['list'] || undefined)
 } else if (argv._.indexOf('lists') !== -1) {
   trelloHelperLib.getLists()
-} else if (!argv['create'] && argv['list']) {
+} else if (argv['list']) {
   trelloHelperLib.listCards(argv['list'])
 } else {
   console.log('No argument supplied.')
