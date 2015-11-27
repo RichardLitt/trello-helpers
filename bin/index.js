@@ -23,7 +23,7 @@ if (argv._.indexOf('today') !== -1) {
 } else if (argv._.indexOf('duplicates') !== -1) {
   trelloHelperLib.removeDuplicates(argv['list'])
 } else if (argv['create']) {
-  trelloHelperLib.createCard(argv['create'], argv['list'] || undefined)
+  trelloHelperLib.createCard(argv['create'], argv['list'] || 'In')
 } else if (argv._.indexOf('lists') !== -1) {
   trelloHelperLib.getLists()
 } else if (argv['list']) {
