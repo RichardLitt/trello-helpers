@@ -28,12 +28,18 @@ Your key and token can be gotten from the Trello API. Your board should be in th
 
 `$ trello-helpers --create 'This is a new card'`
 
-Aliases: `c`
-Options: `-l <target list>`
-
-This will create a new card at the top of your target list as specified in your env, with the name of the argument.
-
-An optional `list` argument will create the card if a list exists with that name.
+Description: This will create a new card at the top of your target list as specified in your env, with the name of the argument.  
+Aliases: `c`  
+Options: 
+  - `-list <target list>`  
+    Desc: An optional `list` argument will create the card if a list exists with that name.  
+    Aliases: `l`  
+    Default: `In`  
+  - `-position <position>`  
+    Desc: An optional `position` argument will specify where that card should go in the list.  
+    Aliases: `p`  
+    Values: `top`, `bottom`, or positive number.  
+    Default: `top`  
 
 #### duplicates
 
