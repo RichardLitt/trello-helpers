@@ -40,8 +40,11 @@ An optional `list` argument will create the card if a list exists with that name
 `$ trello-helpers duplicates`
 
 Aliases: `d`
+Options: `-l <target list>`
 
 This will delete duplicate cards in a given list. It will also selectively delete only cards which have a certain label (mine is `daily`).
+
+An optional `list` argument will delete duplicates in a given list if a list exists with that name.
 
 #### lists
 
