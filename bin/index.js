@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict'
+require('epipebomb')()
 
 var argv = require('minimist')(process.argv.slice(2), {
   alias: {
