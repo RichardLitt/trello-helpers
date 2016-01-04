@@ -30,6 +30,8 @@ if (argv._.indexOf('today') !== -1) {
   trelloHelperLib.getLists()
 } else if (argv['list']) {
   trelloHelperLib.listCards(argv['list'])
+} else if (argv['archive']) {
+  trelloHelperLib.archive()
 } else {
   console.log('No argument supplied.')
   process.exit(1)

@@ -82,3 +82,10 @@ Aliases: `l`
 This will copy all of the cards from a list (mine is called 'Daily Processes') to another list with the format `June 16th, 2015`. It then copies all of those cards from that list to a list called `Today`, the goal being that daily processes are added to your to do list for that day, and you have a fresh card to start putting daily accomplishments on.
 
 Aliases: `t`
+
+#### archive
+
+`$ trello-helpers --archive`
+
+This will archive any duplicate empty lists, because who needs those, amiright?
+
