@@ -16,17 +16,19 @@ Environmental Variables:
   trelloKey: process.env.TRELLO_KEY,
   trelloToken: process.env.TRELLO_TOKEN,
   trelloBoard: process.env.TRELLO_BOARD,
-  todayList: process.env.TRELLO_LIST,
-  trelloLabel: process.env.TRELLO_LABEL
+  todayList: process.env.TRELLO_LIST || 'Today',
+  trelloLabel: process.env.TRELLO_LABEL || 'Daily'
 }
 ```
 
 Your key and token can be gotten from the Trello API, [here](https://trello.com/app-key).
 
-Other values:  
-  - `TRELLO_BOARD`: This should be the name for your default Board.  
-  - `TRELLO_LIST`: This should be the name for your active To Do list, often called _Today_ or _To Do_.  
-  - `TRELLO_LABEL`: This should be the id for a Trello Label you to identify daily lists. See [issue #12](https://github.com/RichardLitt/trello-helpers/issues/12).
+Other necessary value:
+  - `TRELLO_BOARD`: This should be the name for your default Board.
+
+Optional values:
+  - `TRELLO_LIST`: This should be the name for your active To Do list. Default: `Today`.
+  - `TRELLO_LABEL`: This should be the name for your label for recurring items to be copied. Default: `Daily`.
 
 ## Methods
 

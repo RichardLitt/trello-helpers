@@ -16,8 +16,8 @@ var trelloHelperLib = require('../lib')({
   trelloKey: process.env.TRELLO_KEY,
   trelloToken: process.env.TRELLO_TOKEN,
   trelloBoard: process.env.TRELLO_BOARD,
-  todayList: process.env.TRELLO_LIST,
-  trelloLabel: process.env.TRELLO_LABEL
+  todayList: process.env.TRELLO_LIST || 'Today', // This is what you call your main To Do list. See Readme.
+  trelloLabel: process.env.TRELLO_LABEL || 'Daily' // This is what you replicate each time you run 'today'. See Readme.
 })
 
 if (argv._.indexOf('today') !== -1) {
