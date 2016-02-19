@@ -1,6 +1,6 @@
 {
   "name": "trello-helpers",
-  "version": "1.0.23",
+  "version": "1.0.24",
   "description": "Just some functions I need to use",
   "main": "bin/index.js",
   "bin": "bin/index.js",
@@ -29,7 +29,7 @@
     "node-trello": "^1.1.2"
   },
   "coordinates": [
-    42.389084,
-    -71.1202283
+    42.3890825,
+    -71.1202237
   ]
 }
