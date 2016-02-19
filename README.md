@@ -58,10 +58,14 @@ This will delete duplicate cards in a given list. It will also selectively delet
 
 Aliases: `d`  
 Options:  
-  - `-list <target list>`
+  - `--list=<target list>`
     Description: This will delete duplicates in a given list if a list exists with that name.
     Aliases: `l`
     Default: `process.env.TRELLO_LIST`
+  - `--label=<label>`
+    Description: This will delete duplicates only with a given label
+    Aliases: null
+    Default: `process.env.TRELLO_LABEL || 'Daily'`
 
 #### lists
 

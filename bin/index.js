@@ -23,7 +23,7 @@ var trelloHelperLib = require('../lib')({
 if (argv._.indexOf('today') !== -1) {
   trelloHelperLib.createToday()
 } else if (argv._.indexOf('duplicates') !== -1) {
-  trelloHelperLib.removeDuplicates(argv['list'])
+  trelloHelperLib.removeDuplicates(argv['list'], argv)
 } else if (argv['create']) {
   trelloHelperLib.createCard(argv['create'], argv['list'] || 'In', argv['position'] || 'bottom')
 } else if (argv._.indexOf('lists') !== -1) {
