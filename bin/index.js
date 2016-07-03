@@ -32,6 +32,8 @@ if (argv._.indexOf('today') !== -1) {
   trelloHelperLib.listCards(argv['list'])
 } else if (argv['archive']) {
   trelloHelperLib.archive()
+} else if (argv['findBoard']) {
+  trelloHelperLib.findBoard()
 } else {
   console.log('No argument supplied.')
   process.exit(1)

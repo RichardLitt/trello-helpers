@@ -24,7 +24,7 @@ Environmental Variables:
 Your key and token can be gotten from the Trello API, [here](https://trello.com/app-key).
 
 Other necessary value:
-  - `TRELLO_BOARD`: This should be the name for your default Board.
+  - `TRELLO_BOARD`: This should be the name for your default Board. To get this, use `trello-helpers --findBoard` to get all names: this should be in human english. For instance, mine is called `Life As It Is Played`.
 
 Optional values:
   - `TRELLO_LIST`: This should be the name for your active To Do list. Default: `Today`.
@@ -94,4 +94,10 @@ Aliases: `t`
 `$ trello-helpers --archive`
 
 This will archive any duplicate empty lists, because who needs those, amiright?
+
+#### findBoard
+
+`$ trello-helpers --findBoard`
+
+Print a list of all boards and boardIds to the console, for use in setting the initial ENV vars.
 
